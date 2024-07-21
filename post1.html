@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LOGIN</title>
+    <style>
+        .error {
+            color: red;
+        }
+
+        .input-field {
+            border: 1px solid #ccc;
+            padding: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: blue;
+        }
+
+        .input-field:hover {
+            background-color: rgb(56, 215, 104);
+        }
+
+       
+        .container {
+            border: 2px solid #ccc;
+            padding: 20px;
+            width: 1000px;
+            margin: 0 auto; 
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+        }
+
+        
+        .form-container {
+            flex: 1;
+            margin-left: 30px;
+        }
+
+       
+        .login-image {
+            
+            height: 500px;
+            width:600px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+       
+        <img src="welcome.jpg" alt="Welcome" class="login-image">
+
+        
+        <div class="form-container">
+            <form id="loginForm" onsubmit="return validateForm()" action="http://localhost:3333/login" method="post">
+                <label for="name" style="font-size:30px;">UserName:</label><br>
+                <input type="text" id="name" name="name" class="input-field"><br>
+                <span id="nameError" class="error"></span><br>
+
+                <label for="email" style="font-size:30px;">Email:</label><br>
+                <input type="email" id="email" name="email" class="input-field"><br>
+                <span id="emailError" class="error"></span><br>
+
+                <label for="password" style="font-size:30px;">Password:</label><br>
+                <input type="password" id="password" name="password" class="input-field"><br>
+                <span id="passwordError" class="error"></span><br>
+
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var inputFields = document.querySelectorAll('.input-field');
+        inputFields.forEach(function(field) {
+            field.addEventListener('focus', function() {
+                this.style.borderColor = 'blue';
+            });
+
+            field.addEventListener('blur', function() {
+                this.style.borderColor = '#ccc';
+            });
+
+            field.addEventListener('mouseover', function() {
+                this.style.backgroundColor = 'CornflowerBlue';
+            });
+
+            field.addEventListener('mouseout', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+
+        function validateForm() {
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            var nameError = document.getElementById("nameError");
+            var emailError = document.getElementById("emailError");
+            var passwordError = document.getElementById("passwordError");
+
+            nameError.innerHTML = "";
+            emailError.innerHTML = "";
+            passwordError.innerHTML = "";
+
+            var isValid = true;
+
+            if (name.trim() === "") {
+                nameError.innerHTML = "Name is required";
+                isValid = false;
+            }
+
+            if (email.trim() === "") {
+                emailError.innerHTML = "Email is required";
+                isValid = false;
+            }
+
+            if (password === "") {
+                passwordError.innerHTML = "Password is required";
+                isValid = false;
+            } else if (password.length < 8) {
+                passwordError.innerHTML = "Password must be at least 8 characters long";
+                isValid = false;
+            }
+
+            else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)) {
+                passwordError.innerHTML = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>
